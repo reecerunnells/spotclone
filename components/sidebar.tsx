@@ -1,13 +1,4 @@
-import {
-  Box,
-  List,
-  ListItem,
-  ListIcon,
-  Divider,
-  Center,
-  LinkBox,
-  LinkOverlay,
-} from "@chakra-ui/layout";
+import { Box, Divider } from "@chakra-ui/layout";
 import {
   MdHome,
   MdSearch,
@@ -16,9 +7,9 @@ import {
   MdFavorite,
 } from "react-icons/md";
 import NextImage from "next/image";
-import NextLink from "next/link";
+import AppLeftMenu from "./appLeftMenu";
 
-const navMenu = [
+const navMenuItems = [
   {
     name: "Home",
     icon: MdHome,
@@ -36,20 +27,20 @@ const navMenu = [
   },
 ];
 
-const playlistMenu = [
+const musicMenuItems = [
   {
     name: "Create Playlist",
     icon: MdPlaylistAdd,
     route: "/createPlaylist",
   },
   {
-    name: "Liked Songs",
+    name: "Favorites",
     icon: MdFavorite,
     route: "/favorites",
   },
 ];
 
-const playlists = new Array(10).fill(null).map((value, index) => {
+const playlistItems = new Array(20).fill(1).map((_, index) => {
   const name = `Test Playlist ${index + 1}`;
   const route = `/playlist/${name.toLowerCase().replaceAll(" ", "")}`;
   return {
@@ -66,67 +57,20 @@ const Sidebar = () => {
       bg="black"
       paddingX="5px"
       color="gray"
-      overflow="hidden"
     >
-      <Box paddingY="20px">
+      <Box paddingY="20px" height="100%">
         <Box width="120px" marginBottom="20px" paddingX="20px">
           <NextImage src="/logo.svg" height={60} width={120} />
         </Box>
         <Box marginBottom="20px">
-          <List spacing={2}>
-            {navMenu.map((menu) => (
-              <ListItem paddingX="20px" fontSize="16px" key={menu.name}>
-                <LinkBox>
-                  <NextLink href={menu.route} passHref>
-                    <LinkOverlay>
-                      <ListIcon
-                        as={menu.icon}
-                        color="white"
-                        marginRight="20px"
-                      />
-                      {menu.name}
-                    </LinkOverlay>
-                  </NextLink>
-                </LinkBox>
-              </ListItem>
-            ))}
-          </List>
+          <AppLeftMenu data={navMenuItems} />
         </Box>
-        <Box marginBottom="10px">
-          <List spacing={2}>
-            {playlistMenu.map((item) => (
-              <ListItem paddingX="20px" fontSize="16px" key={item.name}>
-                <LinkBox>
-                  <NextLink href={item.route} passHref>
-                    <LinkOverlay>
-                      <ListIcon
-                        as={item.icon}
-                        color="white"
-                        marginRight="20px"
-                      />
-                      {item.name}
-                    </LinkOverlay>
-                  </NextLink>
-                </LinkBox>
-              </ListItem>
-            ))}
-          </List>
+        <Box marginY="20px">
+          <AppLeftMenu data={musicMenuItems} />
         </Box>
-        <Box marginBottom="10px" paddingX="20px">
-          <Divider />
-        </Box>
-        <Box marginBottom="10px" overflow="auto" height="100vh">
-          <List spacing={2}>
-            {playlists.map((list) => (
-              <ListItem paddingX="20px" fontSize="16px" key={list.name}>
-                <LinkBox>
-                  <NextLink href={list.route} passHref>
-                    <LinkOverlay>{list.name}</LinkOverlay>
-                  </NextLink>
-                </LinkBox>
-              </ListItem>
-            ))}
-          </List>
+        <Divider color="gray.800" />
+        <Box height="66%" overflowY="auto" paddingY="20px">
+          <AppLeftMenu data={playlistItems} />
         </Box>
       </Box>
     </Box>
